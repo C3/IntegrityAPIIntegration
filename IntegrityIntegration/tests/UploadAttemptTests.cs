@@ -1,0 +1,38 @@
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using NUnit.Framework;
+
+namespace IntegrityAPITests
+{
+	public class UploadAttemptTests
+	{
+
+		[Test()]
+
+		public void UploadAttempXmlTest()
+		{
+			string xml = "<user-access-group-authorisation>" + Constants.vbCr + Constants.vbLf + "  <name>Beyond Sync</name>" + Constants.vbCr + Constants.vbLf + "  <datasets type=\"array\">" + Constants.vbCr + Constants.vbLf + "    <dataset>" + Constants.vbCr + Constants.vbLf + "      <id>45</id>" + Constants.vbCr + Constants.vbLf + "      <name>Accreditation Type</name>" + Constants.vbCr + Constants.vbLf + "      <is-bulk-allowed>false</is-bulk-allowed>" + Constants.vbCr + Constants.vbLf + Constants.vbCr + Constants.vbLf + "      <is-incremental-allowed>true</is-incremental-allowed>" + Constants.vbCr + Constants.vbLf + "      <table-name>ct_accreditation_type</table-name>" + Constants.vbCr + Constants.vbLf + "      <qualifiers type=\"array\">" + Constants.vbCr + Constants.vbLf + "        <qualifier>" + Constants.vbCr + Constants.vbLf + "          <dataset-attribute-name>RTP</dataset-attribute-name>" + Constants.vbCr + Constants.vbLf + "          <valid-values type=\"array\">" + Constants.vbCr + Constants.vbLf + "            <valid-value>83</valid-value>" + Constants.vbCr + Constants.vbLf + "            <valid-value>90</valid-value>" + Constants.vbCr + Constants.vbLf + "          </valid-values>" + Constants.vbCr + Constants.vbLf + "        </qualifier>" + Constants.vbCr + Constants.vbLf + "      </qualifiers>" + Constants.vbCr + Constants.vbLf + "      <dataset-formats type=\"array\">" + Constants.vbCr + Constants.vbLf + "        <dataset-format>" + Constants.vbCr + Constants.vbLf + "          <name>XML</name>" + Constants.vbCr + Constants.vbLf + "          <parser-type>XML</parser-type>" + Constants.vbCr + Constants.vbLf + "        </dataset-format>" + Constants.vbCr + Constants.vbLf + "      </dataset-formats>" + Constants.vbCr + Constants.vbLf + "    </dataset>" + Constants.vbCr + Constants.vbLf + "    <dataset>" + Constants.vbCr + Constants.vbLf + "      <id>12</id>" + Constants.vbCr + Constants.vbLf + "      <name>Accreditation Level</name>" + Constants.vbCr + Constants.vbLf + Constants.vbCr + Constants.vbLf + "      <is-bulk-allowed>false</is-bulk-allowed>" + Constants.vbCr + Constants.vbLf + "      <is-incremental-allowed>false</is-incremental-allowed>" + Constants.vbCr + Constants.vbLf + "      <table-name>ct_accreditation_level</table-name>" + Constants.vbCr + Constants.vbLf + "      <qualifiers type=\"array\">" + Constants.vbCr + Constants.vbLf + "      </qualifiers>" + Constants.vbCr + Constants.vbLf + "      <dataset-formats type=\"array\">" + Constants.vbCr + Constants.vbLf + "        <dataset-format>" + Constants.vbCr + Constants.vbLf + Constants.vbCr + Constants.vbLf + "          <name>CSV</name>" + Constants.vbCr + Constants.vbLf + "          <parser-type>CSV</parser-type>" + Constants.vbCr + Constants.vbLf + "        </dataset-format>" + Constants.vbCr + Constants.vbLf + "      </dataset-formats>" + Constants.vbCr + Constants.vbLf + "    </dataset>" + Constants.vbCr + Constants.vbLf + "    <dataset>" + Constants.vbCr + Constants.vbLf + "      <id>11</id>" + Constants.vbCr + Constants.vbLf + "      <name>Accreditation</name>" + Constants.vbCr + Constants.vbLf + Constants.vbCr + Constants.vbLf + "      <is-bulk-allowed>false</is-bulk-allowed>" + Constants.vbCr + Constants.vbLf + "      <is-incremental-allowed>false</is-incremental-allowed>" + Constants.vbCr + Constants.vbLf + "      <table-name>ct_accreditation_level</table-name>" + Constants.vbCr + Constants.vbLf + "      <qualifiers type=\"array\">" + Constants.vbCr + Constants.vbLf + "      </qualifiers>" + Constants.vbCr + Constants.vbLf + "      <dataset-formats type=\"array\">" + Constants.vbCr + Constants.vbLf + "        <dataset-format>" + Constants.vbCr + Constants.vbLf + Constants.vbCr + Constants.vbLf + "          <name>XML</name>" + Constants.vbCr + Constants.vbLf + "          <parser-type>XML</parser-type>" + Constants.vbCr + Constants.vbLf + "        </dataset-format>" + Constants.vbCr + Constants.vbLf + "      </dataset-formats>" + Constants.vbCr + Constants.vbLf + "    </dataset>" + Constants.vbCr + Constants.vbLf + "    <dataset>" + Constants.vbCr + Constants.vbLf + "      <id>31</id>" + Constants.vbCr + Constants.vbLf + "      <name>DS 01</name>" + Constants.vbCr + Constants.vbLf + Constants.vbCr + Constants.vbLf + "      <is-bulk-allowed>false</is-bulk-allowed>" + Constants.vbCr + Constants.vbLf + "      <is-incremental-allowed>true</is-incremental-allowed>" + Constants.vbCr + Constants.vbLf + "      <table-name>ct_accreditation_level</table-name>" + Constants.vbCr + Constants.vbLf + "      <qualifiers type=\"array\">" + Constants.vbCr + Constants.vbLf + "        <qualifier>" + Constants.vbCr + Constants.vbLf + "          <dataset-attribute-name>Qual</dataset-attribute-name>" + Constants.vbCr + Constants.vbLf + "          <valid-values type=\"array\">" + Constants.vbCr + Constants.vbLf + "            <valid-value>11</valid-value>" + Constants.vbCr + Constants.vbLf + "            <valid-value>54</valid-value>" + Constants.vbCr + Constants.vbLf + "          </valid-values>" + Constants.vbCr + Constants.vbLf + "        </qualifier>" + Constants.vbCr + Constants.vbLf + "        <qualifier>" + Constants.vbCr + Constants.vbLf + "          <dataset-attribute-name>Qual2</dataset-attribute-name>" + Constants.vbCr + Constants.vbLf + "          <valid-values type=\"array\">" + Constants.vbCr + Constants.vbLf + "            <valid-value>1</valid-value>" + Constants.vbCr + Constants.vbLf + "            <valid-value>5</valid-value>" + Constants.vbCr + Constants.vbLf + "          </valid-values>" + Constants.vbCr + Constants.vbLf + "        </qualifier>" + Constants.vbCr + Constants.vbLf + "      </qualifiers>" + Constants.vbCr + Constants.vbLf + "      <dataset-formats type=\"array\">" + Constants.vbCr + Constants.vbLf + "        <dataset-format>" + Constants.vbCr + Constants.vbLf + Constants.vbCr + Constants.vbLf + "          <name>XML</name>" + Constants.vbCr + Constants.vbLf + "          <parser-type>XML</parser-type>" + Constants.vbCr + Constants.vbLf + "        </dataset-format>" + Constants.vbCr + Constants.vbLf + "      </dataset-formats>" + Constants.vbCr + Constants.vbLf + "    </dataset>" + Constants.vbCr + Constants.vbLf + "  </datasets>" + Constants.vbCr + Constants.vbLf + "</user-access-group-authorisation>";
+			Configuration configuration = new Configuration();
+			configuration.BuildFromXml(xml);
+
+			string fileXml = null;
+			fileXml = "<rows><row><id>12</id><control_code>110</control_code></row></rows>";
+			UploadAttempt _uploadAttempt = new UploadAttempt(configuration.GetDataset(45), configuration.GetQualifiersForDataset(45), fileXml, "XML");
+
+			string resultXml = null;
+			resultXml = _uploadAttempt.BuildAttemptXml();
+			StringAssert.AreEqualIgnoringCase("RTP", _uploadAttempt.Qualifiers.First.AttributeName);
+
+			string expectedXML = null;
+			expectedXML = "<upload-attempt><dataset-name>Accreditation Type</dataset-name><format-name>XML</format-name><bulk-or-incremental>incremental</bulk-or-incremental><qualifiers type=\"array\"><qualifier><dataset-attribute-name>RTP</dataset-attribute-name><qualifier-values type=\"array\"><qualifier-value>83</qualifier-value><qualifier-value>90</qualifier-value></qualifier-values></qualifier></qualifiers><file><![CDATA[<rows><row><id>12</id><control_code>110</control_code></row></rows>]]></file></upload-attempt>";
+
+			StringAssert.AreEqualIgnoringCase(expectedXML, resultXml);
+		}
+
+	}
+}
+
