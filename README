@@ -1,0 +1,6 @@
+Integration with Integrity API originally used for GPRIP integration.
+
+Current state:
+  - main project builds without tests
+  - tests need to be added back in and corrected
+  - code needs to be updated to use 3.* API
