@@ -31,9 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.core">
+      <HintPath>C:\Program Files\NUnit 2.6\bin\lib\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\NUnit 2.6\bin\framework\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks, Version=2.6.0.12051, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\NUnit 2.6\bin\framework\nunit.mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Linq">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
@@ -47,6 +60,11 @@
     <Compile Include="IntegrityInterface.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Qualifier.cs" />
+    <Compile Include="tests\ConfigurationTests.cs" />
+    <Compile Include="tests\IntegrityHttpServiceTests.cs" />
+    <Compile Include="tests\IntegrityInterfaceTests.cs" />
+    <Compile Include="tests\UploadAttemptResponseTests.cs" />
+    <Compile Include="tests\UploadAttemptTests.cs" />
     <Compile Include="UploadAttempt.cs" />
     <Compile Include="UploadAttemptResponse.cs" />
     <Compile Include="XMLHttpService.cs" />

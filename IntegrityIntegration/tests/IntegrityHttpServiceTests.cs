@@ -48,8 +48,9 @@ namespace IntegrityAPITests
 		public void TestSetup()
 		{
 			_instance = new IntegrityHttpService("url", "user", "password");
-			_mock_service = new MockXMLHTTPService();
-			_instance.SetService(_mock_service);
+            _mock_service = new MockXMLHTTPService();
+            XMLHTTPService _a = (XMLHTTPService)_mock_service;
+            _instance.SetService(ref _a);
 		}
 
 		[Test()]

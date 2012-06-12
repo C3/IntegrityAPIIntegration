@@ -63,7 +63,7 @@ class Configuration
 		return ds;
 	}
 
-	private object buildQualifier(XmlNode q_node)
+	private Qualifier buildQualifier(XmlNode q_node)
 	{
 		string name = null;
 		name = q_node.SelectSingleNode("dataset-attribute-name").InnerText;

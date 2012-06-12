@@ -6,6 +6,8 @@ using System.Data;
 using System.Diagnostics;
 using NUnit.Framework;
 
+using IntegrityAPI;
+
 namespace IntegrityAPITests
 {
 	public class UploadAttemptResponseTests
@@ -14,7 +16,7 @@ namespace IntegrityAPITests
 		[Test()]
 		public void UploadAttempXmlValidatedTest()
 		{
-			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Constants.vbCrLf + "<upload-attempt>" + Constants.vbCrLf + "<id>4048</id>" + Constants.vbCrLf + "<status>upload</status>" + Constants.vbCrLf + "<rows-uploaded>99</rows-uploaded>" + Constants.vbCrLf + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Constants.vbCrLf + "<row-errors type=\"array\"></row-errors>" + Constants.vbCrLf + "<errors></errors>" + Constants.vbCrLf + "</upload-attempt>";
+			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine + "<upload-attempt>" + Environment.NewLine + "<id>4048</id>" + Environment.NewLine + "<status>upload</status>" + Environment.NewLine + "<rows-uploaded>99</rows-uploaded>" + Environment.NewLine + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Environment.NewLine + "<row-errors type=\"array\"></row-errors>" + Environment.NewLine + "<errors></errors>" + Environment.NewLine + "</upload-attempt>";
 
 			UploadAttemptResponse response = new UploadAttemptResponse(xml);
 			Assert.IsTrue(response.WasSuccess);
@@ -25,7 +27,7 @@ namespace IntegrityAPITests
 		[Test()]
 		public void UploadAttempXmlUploadedTest()
 		{
-			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Constants.vbCrLf + "<upload-attempt>" + Constants.vbCrLf + "<id>4048</id>" + Constants.vbCrLf + "<status>pending</status>" + Constants.vbCrLf + "<rows-uploaded>99</rows-uploaded>" + Constants.vbCrLf + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Constants.vbCrLf + "<row-errors type=\"array\"></row-errors>" + Constants.vbCrLf + "<errors></errors>" + Constants.vbCrLf + "</upload-attempt>";
+			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine + "<upload-attempt>" + Environment.NewLine + "<id>4048</id>" + Environment.NewLine + "<status>pending</status>" + Environment.NewLine + "<rows-uploaded>99</rows-uploaded>" + Environment.NewLine + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Environment.NewLine + "<row-errors type=\"array\"></row-errors>" + Environment.NewLine + "<errors></errors>" + Environment.NewLine + "</upload-attempt>";
 
 			UploadAttemptResponse response = new UploadAttemptResponse(xml);
 			Assert.IsTrue(response.WasSuccess);
@@ -36,7 +38,7 @@ namespace IntegrityAPITests
 		[Test()]
 		public void UploadAttempXmlCreatedTest()
 		{
-			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Constants.vbCrLf + "<upload-attempt>" + Constants.vbCrLf + "<id>4048</id>" + Constants.vbCrLf + "<status>validate</status>" + Constants.vbCrLf + "<rows-uploaded>99</rows-uploaded>" + Constants.vbCrLf + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Constants.vbCrLf + "<row-errors type=\"array\"></row-errors>" + Constants.vbCrLf + "<errors></errors>" + Constants.vbCrLf + "</upload-attempt>";
+			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine + "<upload-attempt>" + Environment.NewLine + "<id>4048</id>" + Environment.NewLine + "<status>validate</status>" + Environment.NewLine + "<rows-uploaded>99</rows-uploaded>" + Environment.NewLine + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Environment.NewLine + "<row-errors type=\"array\"></row-errors>" + Environment.NewLine + "<errors></errors>" + Environment.NewLine + "</upload-attempt>";
 
 			UploadAttemptResponse response = new UploadAttemptResponse(xml);
 			Assert.IsTrue(response.WasSuccess);
@@ -47,7 +49,7 @@ namespace IntegrityAPITests
 		[Test()]
 		public void UploadAttempXmlCreatFailureTest()
 		{
-			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Constants.vbCrLf + "<upload-attempt>" + Constants.vbCrLf + "<id></id>" + Constants.vbCrLf + "<status></status>" + Constants.vbCrLf + "<rows-uploaded>99</rows-uploaded>" + Constants.vbCrLf + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Constants.vbCrLf + "<row-errors type=\"array\"></row-errors>" + Constants.vbCrLf + "<errors><error>blah</error></errors>" + Constants.vbCrLf + "</upload-attempt>";
+			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine + "<upload-attempt>" + Environment.NewLine + "<id></id>" + Environment.NewLine + "<status></status>" + Environment.NewLine + "<rows-uploaded>99</rows-uploaded>" + Environment.NewLine + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Environment.NewLine + "<row-errors type=\"array\"></row-errors>" + Environment.NewLine + "<errors><error>blah</error></errors>" + Environment.NewLine + "</upload-attempt>";
 
 			UploadAttemptResponse response = new UploadAttemptResponse(xml);
 			Assert.IsFalse(response.WasSuccess);
@@ -57,7 +59,7 @@ namespace IntegrityAPITests
 		[Test()]
 		public void UploadAttempXmlValidationFailureTest()
 		{
-			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Constants.vbCrLf + "<upload-attempt>" + Constants.vbCrLf + "<id>4048</id>" + Constants.vbCrLf + "<status>upload</status>" + Constants.vbCrLf + "<rows-uploaded>99</rows-uploaded>" + Constants.vbCrLf + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Constants.vbCrLf + "<row-errors type=\"array\"><row-error>bad data</row-error></row-errors>" + Constants.vbCrLf + "<errors><error>blah</error></errors>" + Constants.vbCrLf + "</upload-attempt>";
+			string xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + Environment.NewLine + "<upload-attempt>" + Environment.NewLine + "<id>4048</id>" + Environment.NewLine + "<status>upload</status>" + Environment.NewLine + "<rows-uploaded>99</rows-uploaded>" + Environment.NewLine + "<uploaded-row-data><tbl_reg type=\"array\"></tbl_reg></uploaded-row-data>" + Environment.NewLine + "<row-errors type=\"array\"><row-error>bad data</row-error></row-errors>" + Environment.NewLine + "<errors><error>blah</error></errors>" + Environment.NewLine + "</upload-attempt>";
 
 			UploadAttemptResponse response = new UploadAttemptResponse(xml);
 			Assert.IsFalse(response.WasSuccess);
