@@ -30,5 +30,24 @@ namespace IntegrityIntegration
         {
             _conditions.Add(string.Format("[{0}][{1}][exactly][]={2}", _dataset.m_tableName, columnName, value));
         }
+
+        public string ToQueryConditions()
+        {
+            StringBuilder query = new StringBuilder();
+
+            for (int i = 0; i < _dataset.m_qualifiers.Count; ++i)
+            {
+                query.Append(_dataset.m_qualifiers[i].ToSearchQuery(i));
+                query.Append("&");
+            }
+
+            foreach (string condition in Conditions)
+            {
+                query.Append(condition);
+                query.Append("&");
+            }
+
+            return query.ToString();
+        }
     }
 }
