@@ -14,5 +14,5 @@ class IntegrityDataset
 	public bool m_bulk_allowed;
 
 	public bool m_incremental_allowed;
-	public List<Qualifier> m_qualifiers;
+	public List<Qualifier> m_qualifiers = new List<Qualifier>();
 }
