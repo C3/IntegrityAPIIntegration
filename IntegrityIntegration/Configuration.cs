@@ -72,13 +72,13 @@ class Configuration
 		return qualifier;
 	}
 
-	private int[] getValidValues(XmlNodeList val_nodes)
+	private string[] getValidValues(XmlNodeList val_nodes)
 	{
-		List<int> values = new List<int>();
+		List<string> values = new List<string>();
 		XmlNode val_node = null;
 		foreach (XmlNode val_node_loopVariable in val_nodes) {
 			val_node = val_node_loopVariable;
-			values.Add(int.Parse(val_node.InnerText));
+			values.Add(val_node.InnerText);
 		}
 
 		return values.ToArray();

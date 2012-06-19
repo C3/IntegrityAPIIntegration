@@ -65,7 +65,7 @@ class UploadAttempt
 			valuesElement = uaXml.CreateElement("qualifier-values");
 			valuesElement.Attributes.Append((XmlAttribute)attribute.Clone());
 
-			foreach (int value in qualifier.Values) {
+			foreach (string value in qualifier.Values) {
 				element = uaXml.CreateElement("qualifier-value");
 				element.InnerText = value.ToString();
 				valuesElement.AppendChild(element);
