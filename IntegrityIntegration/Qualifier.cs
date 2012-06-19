@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 using System.Linq;
 using System.Text;
+using System.Web;
 
 class Qualifier
 {
@@ -28,6 +29,16 @@ class Qualifier
 		set { m_AttributeName = value; }
 	}
 	private string m_AttributeName;
+
+    public string ToSearchQuery(int index)
+    {
+        string query = "";
+        query += string.Format("upload_qualifiers[{0}][dataset_attribute_name]={1}", index, HttpUtility.UrlEncode(AttributeName));
+        foreach(string value in Values){
+            query += string.Format("&upload_qualifiers[{0}][qualifier_values][]={1}", index, HttpUtility.UrlEncode(value));
+        }
+        return query;
+    }
 }
 
 

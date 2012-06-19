@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq">
       <Private>False</Private>
     </Reference>
@@ -64,6 +65,7 @@
     <Compile Include="tests\ConfigurationTests.cs" />
     <Compile Include="tests\IntegrityHttpServiceTests.cs" />
     <Compile Include="tests\IntegrityInterfaceTests.cs" />
+    <Compile Include="tests\QualifierTest.cs" />
     <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\UploadAttemptResponseTests.cs" />
     <Compile Include="tests\UploadAttemptTests.cs" />
