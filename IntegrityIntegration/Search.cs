@@ -17,7 +17,7 @@ namespace IntegrityIntegration
             _dataset = dataset;
         }
 
-        public List<string> Conditions
+        internal List<string> Conditions
         {
             get { return _conditions; }
         }
@@ -48,7 +48,7 @@ namespace IntegrityIntegration
             return string.Format("audit_id_gt={0}", AuditId);
         }
 
-        public string ToQueryConditions()
+        internal string ToQueryConditions()
         {
             List<string> queryParts = new List<string>();
 
