@@ -23,7 +23,7 @@ namespace IntegrityAPITests
             IntegrityDataset ds = new IntegrityDataset();
             Search search = new Search(ds);
             string[] results = new string[0];
-            Assert.AreEqual(search.Perform(), results);
+            Assert.AreEqual(results, search.Perform());
         }
 
         [Test()]
@@ -33,7 +33,7 @@ namespace IntegrityAPITests
             Search search = new Search(ds);
             string[] results = {"some result"};
 
-            Assert.AreEqual(search.Perform(), results);
+            Assert.AreEqual(results, search.Perform());
         }
 
         [Test()]
@@ -49,7 +49,7 @@ namespace IntegrityAPITests
 
             List<string> conditions = new List<string> { condition };
             search.AddCondition(columnName, value);
-            Assert.AreEqual(search.Conditions, conditions);
+            Assert.AreEqual(conditions, search.Conditions);
         }
 
         [Test()]
