@@ -50,23 +50,21 @@ namespace IntegrityIntegration
 
         public string ToQueryConditions()
         {
-            StringBuilder query = new StringBuilder();
+            List<string> queryParts = new List<string>();
 
             for (int i = 0; i < _dataset.m_qualifiers.Count; ++i)
             {
-                query.Append(_dataset.m_qualifiers[i].ToSearchQuery(i));
-                query.Append("&");
+                queryParts.Add(_dataset.m_qualifiers[i].ToSearchQuery(i));
             }
 
             foreach (string condition in Conditions)
             {
-                query.Append(condition);
-                query.Append("&");
+                queryParts.Add(condition);
             }
 
-            query.Append(AuditIdParam());
+            queryParts.Add(AuditIdParam());
 
-            return query.ToString();
+            return string.Join("&", queryParts.ToArray());
         }
     }
 }
