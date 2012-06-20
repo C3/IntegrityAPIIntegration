@@ -28,7 +28,7 @@ namespace IntegrityIntegration
             set;
         }
 
-        public string[] Perform(){
+        public string[] Execute(){
             string[] results = new string[0];
             return results;
         }
