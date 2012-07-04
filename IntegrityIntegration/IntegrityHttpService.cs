@@ -48,4 +48,9 @@ class IntegrityHttpService
 		return _service.GetXML(_base_url + "/" + upload_attempt_id + ".xml");
 	}
 
+    public string GetSearchResults(int datasetId, string queryString)
+    {
+        return _service.GetXML(string.Format("{0}/datasets/{1}/search_results.xml?", _base_url, datasetId, queryString));
+    }
+
 }

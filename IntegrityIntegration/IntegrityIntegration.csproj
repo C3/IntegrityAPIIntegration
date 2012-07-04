@@ -63,11 +63,13 @@
     <Compile Include="Qualifier.cs" />
     <Compile Include="Record.cs" />
     <Compile Include="Search.cs" />
+    <Compile Include="SearchResult.cs" />
     <Compile Include="tests\ConfigurationTests.cs" />
     <Compile Include="tests\IntegrityHttpServiceTests.cs" />
     <Compile Include="tests\IntegrityInterfaceTests.cs" />
     <Compile Include="tests\QualifierTest.cs" />
     <Compile Include="tests\RecordTest.cs" />
+    <Compile Include="tests\SearchResultTest.cs" />
     <Compile Include="tests\SearchTests.cs" />
     <Compile Include="tests\UploadAttemptResponseTests.cs" />
     <Compile Include="tests\UploadAttemptTests.cs" />
