@@ -17,15 +17,34 @@ namespace IntegrityAPITests
         {
             SearchResult result = new SearchResult("<people><row><name>Tommy</name></row></people>");
             XmlDocument doc = new XmlDocument();
-            doc.CreateElement("people");
+
             XmlElement row = doc.CreateElement("row");
+            XmlElement name = doc.CreateElement("name");
+            name.InnerText = "Tommy";
 
-            //row.AppendChild(row. InnerText = "Tommy");
-            //doc.AppendChild(row);
+            row.AppendChild(name);
+            doc.AppendChild(row);
+            Record[] records = new Record[] { new Record(doc.ChildNodes[0]) };
 
-            //Record[] records = new Record[] { new Record(new XmlNode()) };
-            Record[] records = new Record[0];
-            Assert.AreEqual(records, result.Records()[0]);
+            Assert.AreEqual(records[0]["name"], result.Records()[0]["name"]);
         }
+
+        [Test()]
+        public void SearchReultMultipleRecords()
+        {
+            SearchResult result = new SearchResult("<people><row><name>Tommy</name></row><row><name>Billy</name></row></people>");
+
+            Assert.Greater(result.Records().Length, 1);
+        }
+
+        [Test()]
+        public void SearchResultWithNoRescords()
+        {
+            SearchResult result = new SearchResult("<people></people>");
+
+            Record[] records = new Record[0];
+            Assert.AreEqual(records, result.Records());
+        }
+
     }
 }

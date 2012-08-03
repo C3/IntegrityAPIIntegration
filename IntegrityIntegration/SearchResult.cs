@@ -17,13 +17,13 @@ namespace IntegrityIntegration
 
         public Record[] Records()
         {
-            if (_records != null){ return _records; }
+            if (_records != null) { return _records; }
 
             List<Record> records = new List<Record>();
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(searchResultXml);
 
-            foreach (XmlNode record in doc.SelectSingleNode("//row").ChildNodes)
+            foreach (XmlNode record in doc.SelectNodes("//row"))
             {
                 records.Add(new Record(record));
             }
