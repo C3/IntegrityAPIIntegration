@@ -5,7 +5,12 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
-class IntegrityHttpService
+public interface IIntegrityHttpService
+{
+    string GetSearchResults(int datasetId, string queryString);
+}
+
+class IntegrityHttpService : IIntegrityHttpService
 {
 
 	private string _base_url;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
+using Moq;
 using IntegrityIntegration;
 
 namespace IntegrityAPITests
@@ -22,18 +23,41 @@ namespace IntegrityAPITests
         public void SearchWithNoResults(){
             IntegrityDataset ds = new IntegrityDataset();
             Search search = new Search(ds);
-            string[] results = new string[0];
-            Assert.AreEqual(results, search.Execute());
+            string searchConditions = search.ToQueryConditions() + "&" + search.PaginationParams(1);
+
+            var mockService = new Mock<IIntegrityHttpService>();
+            mockService.Setup(service => service.GetSearchResults(0, searchConditions)).Returns("<people></people>");
+
+            Assert.AreEqual(0, search.Execute(mockService.Object).Length);
         }
 
         [Test()]
-        public void SearchWithResults()
+        public void SearchWithOneResult()
         {
             IntegrityDataset ds = new IntegrityDataset();
             Search search = new Search(ds);
-            string[] results = {"some result"};
+            string searchConditions = search.ToQueryConditions() + "&";
 
-            Assert.AreEqual(results, search.Execute());
+            var mockService = new Mock<IIntegrityHttpService>();
+            mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(1))).Returns("<people><row><name>Billy</name></row></people>");
+            mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(2))).Returns("<people></people>");
+
+            Assert.AreEqual(1, search.Execute(mockService.Object).Length);
+        }
+
+        [Test()]
+        public void SearchWithManyResults()
+        {
+            IntegrityDataset ds = new IntegrityDataset();
+            Search search = new Search(ds);
+            string searchConditions = search.ToQueryConditions() + "&";
+
+            var mockService = new Mock<IIntegrityHttpService>();
+            mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(1))).Returns("<people><row><name>Billy</name></row></people>");
+            mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(2))).Returns("<people><row><name>Tommy</name></row></people>");
+            mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(3))).Returns("<people></people>");
+
+            Assert.Greater(search.Execute(mockService.Object).Length, 1);
         }
 
         [Test()]

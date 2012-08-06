@@ -28,9 +28,20 @@ namespace IntegrityIntegration
             set;
         }
 
-        public string[] Execute(){
-            string[] results = new string[0];
-            return results;
+        public Record[] Execute(IIntegrityHttpService service){
+            int pageNumber = 1;
+            List<Record> allResults = new List<Record>();
+            Record[] records;
+            string resultXML;
+
+            do {
+                resultXML = service.GetSearchResults(_dataset.m_id, ToQueryConditions() + "&" + PaginationParams(pageNumber));
+                records = new SearchResult(resultXML).Records();
+                allResults.AddRange(records);
+                pageNumber += 1;
+            } while(records.Length > 0);
+
+            return allResults.ToArray();
         }
 
         internal void AddCondition(string columnName, string value)
