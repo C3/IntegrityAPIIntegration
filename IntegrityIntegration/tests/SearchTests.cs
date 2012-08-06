@@ -22,42 +22,42 @@ namespace IntegrityAPITests
         [Test()]
         public void SearchWithNoResults(){
             IntegrityDataset ds = new IntegrityDataset();
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
             string searchConditions = search.ToQueryConditions() + "&" + search.PaginationParams(1);
 
-            var mockService = new Mock<IIntegrityHttpService>();
             mockService.Setup(service => service.GetSearchResults(0, searchConditions)).Returns("<people></people>");
 
-            Assert.AreEqual(0, search.Execute(mockService.Object).Length);
+            Assert.AreEqual(0, search.Execute().Length);
         }
 
         [Test()]
         public void SearchWithOneResult()
         {
             IntegrityDataset ds = new IntegrityDataset();
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
             string searchConditions = search.ToQueryConditions() + "&";
 
-            var mockService = new Mock<IIntegrityHttpService>();
             mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(1))).Returns("<people><row><name>Billy</name></row></people>");
             mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(2))).Returns("<people></people>");
 
-            Assert.AreEqual(1, search.Execute(mockService.Object).Length);
+            Assert.AreEqual(1, search.Execute().Length);
         }
 
         [Test()]
         public void SearchWithManyResults()
         {
             IntegrityDataset ds = new IntegrityDataset();
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
             string searchConditions = search.ToQueryConditions() + "&";
 
-            var mockService = new Mock<IIntegrityHttpService>();
             mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(1))).Returns("<people><row><name>Billy</name></row></people>");
             mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(2))).Returns("<people><row><name>Tommy</name></row></people>");
             mockService.Setup(service => service.GetSearchResults(0, searchConditions + search.PaginationParams(3))).Returns("<people></people>");
 
-            Assert.Greater(search.Execute(mockService.Object).Length, 1);
+            Assert.Greater(search.Execute().Length, 1);
         }
 
         [Test()]
@@ -65,7 +65,8 @@ namespace IntegrityAPITests
         {
             IntegrityDataset ds = new IntegrityDataset();
             ds.m_tableName = "people";
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
             string condition = "[people][name][exactly][]=bob";
             string columnName, value;
             columnName = "name";
@@ -81,7 +82,8 @@ namespace IntegrityAPITests
         {
             IntegrityDataset ds = new IntegrityDataset();
             ds.m_tableName = "people";
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
             search.AddCondition("name", "bob");
 
             string query = "[people][name][exactly][]=bob&";
@@ -94,7 +96,8 @@ namespace IntegrityAPITests
         {
             IntegrityDataset ds = new IntegrityDataset();
             ds.m_tableName = "people";
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
             search.AddCondition("name", "bob");
             search.AddCondition("name", "sally");
 
@@ -111,7 +114,8 @@ namespace IntegrityAPITests
             ds.m_tableName = "people";
             List<Qualifier> qualifiers = new List<Qualifier> { new Qualifier("name", new string[] { "bob", "sally" }) };
             ds.m_qualifiers = qualifiers;
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
 
             string query = "upload_qualifiers[0][dataset_attribute_name]=name";
             query += "&upload_qualifiers[0][qualifier_values][]=bob";
@@ -131,7 +135,8 @@ namespace IntegrityAPITests
             qualifiers.Add(new Qualifier("state", new string[] { "VIC" }));
 
             ds.m_qualifiers = qualifiers;
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
 
             string query = "upload_qualifiers[0][dataset_attribute_name]=name";
             query += "&upload_qualifiers[0][qualifier_values][]=bob";
@@ -146,7 +151,8 @@ namespace IntegrityAPITests
         public void SearchWithAuditIdParam()
         {
             IntegrityDataset ds = new IntegrityDataset();
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
             search.AuditId = 100;
 
             string query = "audit_id_gt=100";
@@ -158,7 +164,8 @@ namespace IntegrityAPITests
         public void PaginationParameters()
         {
             IntegrityDataset ds = new IntegrityDataset();
-            Search search = new Search(ds);
+            var mockService = new Mock<IIntegrityHttpService>();
+            Search search = new Search(ds, mockService.Object);
 
             Assert.AreEqual("page=1&per_page=500", search.PaginationParams(1));
         }

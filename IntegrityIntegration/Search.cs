@@ -11,10 +11,13 @@ namespace IntegrityIntegration
         const string PER_PAGE = "500";
         IntegrityDataset _dataset;
         List<string> _conditions = new List<string>();
-        public Search(IntegrityDataset dataset)
+        IIntegrityHttpService _service;
+
+        public Search(IntegrityDataset dataset, IIntegrityHttpService service)
         {
             AuditId = 0;
             _dataset = dataset;
+            _service = service;
         }
 
         internal List<string> Conditions
@@ -28,14 +31,14 @@ namespace IntegrityIntegration
             set;
         }
 
-        public Record[] Execute(IIntegrityHttpService service){
+        public Record[] Execute(){
             int pageNumber = 1;
             List<Record> allResults = new List<Record>();
             Record[] records;
             string resultXML;
 
             do {
-                resultXML = service.GetSearchResults(_dataset.m_id, ToQueryConditions() + "&" + PaginationParams(pageNumber));
+                resultXML = _service.GetSearchResults(_dataset.m_id, ToQueryConditions() + "&" + PaginationParams(pageNumber));
                 records = new SearchResult(resultXML).Records();
                 allResults.AddRange(records);
                 pageNumber += 1;
