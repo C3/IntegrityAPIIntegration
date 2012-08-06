@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\moq\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.core">
       <HintPath>C:\Program Files\NUnit 2.6\bin\lib\nunit.core.dll</HintPath>
     </Reference>
