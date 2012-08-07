@@ -24,8 +24,20 @@ class Configuration
 			}
 		}
 
-		throw new Exception("no dataset");
+        throw new Exception("No data set with id '" + dataset_id + "' found");
 	}
+
+    public IntegrityDataset GetDataset(string datasetName)
+    {
+        foreach (IntegrityDataset dataset in m_Datasets)
+        {
+            if (dataset.m_name.Equals(datasetName))
+            {
+                return dataset;
+            }
+        }
+        throw new Exception("No data set named '" + datasetName + "' found");
+    }
 
 	public void BuildFromXml(string xml_config)
 	{
