@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 
-class Qualifier
+public class Qualifier
 {
 
 	public Qualifier(string attributeName__1, string[] values__2)

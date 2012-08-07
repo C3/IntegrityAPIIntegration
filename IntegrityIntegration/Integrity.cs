@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using IntegrityAPI;
+using IntegrityIntegration;
 
 public class Integrity
 {
@@ -19,6 +20,12 @@ public class Integrity
 		_configuration.BuildFromXml(_integrity_service.GetConfiguration());
 		_integrity_interface = new IntegrityInterface(ref _integrity_service);
 	}
+
+    public Search NewSearch(string datasetName)
+    {
+        IntegrityDataset ds = _configuration.GetDataset(datasetName);
+        return new Search(ds, _integrity_service);
+    }
 
 	public int ExhaustiveIncrementalDatasetUpload(int dataset_id, ref string payload)
 	{

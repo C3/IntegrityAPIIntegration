@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 
-class IntegrityDataset
+public class IntegrityDataset
 {
 
 	public int m_id;

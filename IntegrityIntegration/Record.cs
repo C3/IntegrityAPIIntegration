@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace IntegrityIntegration
 {
-    class Record
+    public class Record
     {
         Dictionary<string, string> columnValues;
         private XmlNode recordXml;

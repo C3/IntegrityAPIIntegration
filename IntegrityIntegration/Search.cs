@@ -6,7 +6,7 @@ using System.Collections;
 
 namespace IntegrityIntegration
 {
-    class Search
+    public class Search
     {
         const string PER_PAGE = "500";
         IntegrityDataset _dataset;
