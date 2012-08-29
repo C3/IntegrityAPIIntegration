@@ -89,6 +89,13 @@ namespace IntegrityAPITests
 			StringAssert.AreEqualIgnoringCase(_mock_service._last_query, "url/upload_attempts/7.xml");
 		}
 
+        [Test()]
+        public void GetSearchResultsTest()
+        {
+            _instance.GetSearchResults(10, "");
+            StringAssert.AreEqualIgnoringCase(_mock_service._last_query, "url/datasets/10/search_results.xml?");
+        }
+
 	}
 }
 
