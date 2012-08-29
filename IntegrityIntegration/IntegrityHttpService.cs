@@ -56,7 +56,7 @@ class IntegrityHttpService : IIntegrityHttpService
 
     public string GetSearchResults(int datasetId, string queryString)
     {
-        return _service.GetXML(string.Format("{0}/datasets/{1}/search_results.xml?", _service_address, datasetId, queryString));
+        return _service.GetXML(string.Format("{0}/datasets/{1}/search_results.xml?{2}", _service_address, datasetId, queryString));
     }
 
 }

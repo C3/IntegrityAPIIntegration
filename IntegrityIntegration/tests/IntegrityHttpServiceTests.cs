@@ -96,6 +96,13 @@ namespace IntegrityAPITests
             StringAssert.AreEqualIgnoringCase(_mock_service._last_query, "url/datasets/10/search_results.xml?");
         }
 
+        [Test()]
+        public void GetSearchResultsWithParamsTest()
+        {
+            _instance.GetSearchResults(10, "page=1&per_page=500");
+            StringAssert.AreEqualIgnoringCase(_mock_service._last_query, "url/datasets/10/search_results.xml?page=1&per_page=500");
+        }
+
 	}
 }
 
