@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Diagnostics;
 using IntegrityAPI;
 using IntegrityIntegration;
@@ -25,6 +26,11 @@ public class Integrity
     {
         IntegrityDataset ds = _configuration.GetDataset(datasetName);
         return new Search(ds, _integrity_service);
+    }
+
+    public IEnumerable<String> AvailableDatasets()
+    {
+      return _configuration.m_Datasets.Select(d => d.m_name);
     }
 
 	public int ExhaustiveIncrementalDatasetUpload(int dataset_id, ref string payload)
