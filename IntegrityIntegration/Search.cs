@@ -47,7 +47,11 @@ namespace IntegrityIntegration
             return allResults.ToArray();
         }
 
-        internal void AddCondition(string columnName, string value)
+        public void AddCondition(string columnName, IEnumerable<string> values)
+        {
+          values.ToList().ForEach(val => AddCondition(columnName, val));
+        }
+        public void AddCondition(string columnName, string value)
         {
             _conditions.Add(string.Format("[{0}][{1}][exactly][]={2}", _dataset.m_tableName, columnName, value));
         }

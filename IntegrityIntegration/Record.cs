@@ -21,6 +21,10 @@ namespace IntegrityIntegration
 
         }
 
+        public IEnumerable<string> columns()
+        {
+          return this.columnValues.Keys;
+        }
         public string this[string columnName]
         {
             get { return columnValues[columnName]; }

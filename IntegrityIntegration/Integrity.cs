@@ -22,6 +22,26 @@ public class Integrity
 		_integrity_interface = new IntegrityInterface(ref _integrity_service);
 	}
 
+  public Search NewSearch(string datasetName, IDictionary<string, IEnumerable<string>> qualifier_selections)
+  {
+    var config_dataset = _configuration.GetDataset(datasetName);
+    var search_dataset = new IntegrityDataset();
+    search_dataset.m_id = config_dataset.m_id;
+    search_dataset.m_name = config_dataset.m_name;
+    search_dataset.m_tableName = config_dataset.m_tableName;
+
+    var qualifiers = new List<Qualifier>();
+
+    foreach (var qualifier_selection in qualifier_selections)
+    {
+      qualifiers.Add(new Qualifier(qualifier_selection.Key, qualifier_selection.Value.ToArray()));
+    }
+
+    search_dataset.m_qualifiers = qualifiers;
+
+    return new Search(search_dataset, _integrity_service);
+  }
+
     public Search NewSearch(string datasetName)
     {
         IntegrityDataset ds = _configuration.GetDataset(datasetName);
@@ -31,6 +51,18 @@ public class Integrity
     public IEnumerable<String> AvailableDatasets()
     {
       return _configuration.m_Datasets.Select(d => d.m_name);
+    }
+
+    public Dictionary<string, IEnumerable<string>> AvailableQualifiers(string dataset)
+    {
+      var qualifiers =_configuration.GetQualifiersForDataset(_configuration.GetDataset(dataset).m_id);
+
+      var qualifier_map = new Dictionary<string, IEnumerable<string>>();
+
+      qualifiers.ForEach(q => qualifier_map.Add(q.AttributeName,q.Values));
+
+      return qualifier_map;
+      
     }
 
 	public int ExhaustiveIncrementalDatasetUpload(int dataset_id, ref string payload)
