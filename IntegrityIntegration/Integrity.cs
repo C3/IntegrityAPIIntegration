@@ -22,7 +22,7 @@ public class Integrity
 		_integrity_interface = new IntegrityInterface(ref _integrity_service);
 	}
 
-  public Search NewSearch(string datasetName, IDictionary<string, IEnumerable<string>> qualifier_selections)
+  public Search NewSearch(string datasetName, IDictionary<string, IList<string>> qualifier_selections)
   {
     var config_dataset = _configuration.GetDataset(datasetName);
     var search_dataset = new IntegrityDataset();
@@ -48,16 +48,16 @@ public class Integrity
         return new Search(ds, _integrity_service);
     }
 
-    public IEnumerable<String> AvailableDatasets()
+    public IList<String> AvailableDatasets()
     {
-      return _configuration.m_Datasets.Select(d => d.m_name);
+      return _configuration.m_Datasets.Select(d => d.m_name).ToList();
     }
 
-    public Dictionary<string, IEnumerable<string>> AvailableQualifiers(string dataset)
+    public Dictionary<string, IList<string>> AvailableQualifiers(string dataset)
     {
       var qualifiers =_configuration.GetQualifiersForDataset(_configuration.GetDataset(dataset).m_id);
 
-      var qualifier_map = new Dictionary<string, IEnumerable<string>>();
+      var qualifier_map = new Dictionary<string, IList<string>>();
 
       qualifiers.ForEach(q => qualifier_map.Add(q.AttributeName,q.Values));
 
