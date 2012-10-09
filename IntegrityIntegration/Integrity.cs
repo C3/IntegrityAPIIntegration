@@ -29,6 +29,14 @@ public class Integrity
 	private Configuration _configuration;
 
 	private IntegrityInterface _integrity_interface;
+
+  /// <summary>
+  /// Creates a new Integrity instance to query upon. Entry point to the API
+  /// </summary>
+  /// <param name="user">Username</param>
+  /// <param name="password">Password</param>
+  /// <param name="service_url">URL For Integrity instance, eg "http://integrity.myhost.com"</param>
+  /// 
 	public Integrity(string user, string password, string service_url)
 	{
 		_integrity_service = new IntegrityHttpService(service_url, user, password);
@@ -37,6 +45,12 @@ public class Integrity
 		_integrity_interface = new IntegrityInterface(ref _integrity_service);
 	}
 
+  /// <summary>
+  /// Create a new Search object with the provided qualifiers as parameters
+  /// </summary>
+  /// <param name="datasetName">Name of dataset</param>
+  /// <param name="qualifier_selections">Qualifiers to search against as a dictionary of attribute name to list of qualifier values</param>
+  /// <returns></returns>
   public Search NewSearch(string datasetName, IDictionary<string, IList<string>> qualifier_selections)
   {
     var config_dataset = _configuration.GetDataset(datasetName);
@@ -57,17 +71,31 @@ public class Integrity
     return new Search(search_dataset, _integrity_service);
   }
 
+  /// <summary>
+  /// Creates a new Search object that will search against all qualifiers the currently logged in user
+  /// </summary>
+  /// <param name="datasetName">Dataset name</param>
+  /// <returns></returns>
     public Search NewSearch(string datasetName)
     {
         IntegrityDataset ds = _configuration.GetDataset(datasetName);
         return new Search(ds, _integrity_service);
     }
 
+  /// <summary>
+  /// Returns a list of names of datasets available to the currently logged in user
+  /// </summary>
+  /// <returns></returns>
     public IList<String> AvailableDatasets()
     {
       return _configuration.m_Datasets.Select(d => d.m_name).ToList();
     }
 
+  /// <summary>
+  /// Returns the qualifiers available to the current user for a dataset as a dictionary mapping attribute name to the lis of available qualifier values
+  /// </summary>
+  /// <param name="dataset">Name of dataset</param>
+  /// <returns></returns>
     public Dictionary<string, IList<string>> AvailableQualifiers(string dataset)
     {
       var qualifiers =_configuration.GetQualifiersForDataset(_configuration.GetDataset(dataset).m_id);
