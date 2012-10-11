@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration.cs" />
+    <Compile Include="DatasetFormat.cs" />
     <Compile Include="Integrity.cs" />
     <Compile Include="IntegrityDataset.cs" />
     <Compile Include="IntegrityHttpService.cs" />

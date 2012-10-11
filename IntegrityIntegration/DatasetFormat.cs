@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2012 C3 Products
 
  * Permission is hereby granted, free of charge, to any person obtaining a
@@ -22,20 +22,17 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using IntegrityIntegration;
+using System.Linq;
+using System.Text;
 
-public class IntegrityDataset
+public class DatasetFormat
 {
-	public int m_id;
-	public string m_name;
-	public string m_tableName;
-	public bool m_bulk_allowed;
-
-	public bool m_incremental_allowed;
-	public List<Qualifier> m_qualifiers = new List<Qualifier>();
-    public List<DatasetFormat> m_dataset_formats = new List<DatasetFormat>();
+    public string name { get; set; }
+    public Type type { get; set; }
+    public enum Type
+    {
+        XML,
+        CSV
+    }
 }

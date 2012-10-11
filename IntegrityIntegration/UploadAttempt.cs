@@ -29,7 +29,7 @@ using System.Diagnostics;
 using System.Xml;
 
 
-class UploadAttempt
+public class UploadAttempt
 {
 
 	private int _id;

@@ -38,7 +38,6 @@ namespace IntegrityAPITests
 			Configuration _configuration = new Configuration();
 			_configuration.BuildFromXml("<user-access-group-authorisation><datasets type=\"array\">" + "<dataset><id>9</id><name>Dataset name</name><is-bulk-allowed>false</is-bulk-allowed>" + "<is-incremental-allowed>true</is-incremental-allowed><table-name>dataset_name</table-name>" + "<qualifiers type=\"array\"/></dataset></datasets></user-access-group-authorisation>");
 			Assert.AreEqual(_configuration.m_Datasets.Count, 1);
-
 		}
 
         [Test()]
@@ -111,6 +110,84 @@ namespace IntegrityAPITests
 
             configuration.BuildFromXml(xmlConfig);
             configuration.GetDataset(10);
+        }
+
+        [Test()]
+        public void GetDatasetWithFormats()
+        {
+            Configuration _configuration = new Configuration();
+            string xmlConfig = @"<user-access-group-authorisation>
+                    <datasets type=""array"">
+                        <dataset><id>9</id>
+                            <name>people</name>
+                            <is-bulk-allowed>false</is-bulk-allowed>
+                            <is-incremental-allowed>true</is-incremental-allowed>
+                            <table-name>dataset_name</table-name>
+                            <qualifiers type=""array""/>
+                            <dataset-formats type=""array"">
+                                <dataset-format>
+                                    <name>Countries CSV</name>
+                                    <parser-type>CSV</parser-type>
+                                </dataset-format>
+                                <dataset-format>
+                                    <name>Countries XML</name>
+                                    <parser-type>XML</parser-type>
+                                </dataset-format>
+                            </dataset-formats>
+                        </dataset>
+                    </datasets>
+                </user-access-group-authorisation>";
+            _configuration.BuildFromXml(xmlConfig);
+            IntegrityDataset _dataset = _configuration.GetDataset(9);
+            
+            Assert.AreEqual(_dataset.m_dataset_formats.Count, 2);
+
+            DatasetFormat csv_format = (DatasetFormat)_dataset.m_dataset_formats.Find(c => c.name == "Countries CSV");
+            Assert.NotNull(csv_format);
+            Assert.AreEqual(csv_format.type, DatasetFormat.Type.CSV);
+
+            DatasetFormat xml_format = (DatasetFormat)_dataset.m_dataset_formats.Find(c => c.name == "Countries XML");
+            Assert.NotNull(xml_format);
+            Assert.AreEqual(xml_format.type, DatasetFormat.Type.XML);
+        }
+
+        [Test()]
+        public void GetDatasetWithFormatsWithLowercaseParserTypes()
+        {
+            Configuration _configuration = new Configuration();
+            string xmlConfig = @"<user-access-group-authorisation>
+                    <datasets type=""array"">
+                        <dataset><id>9</id>
+                            <name>people</name>
+                            <is-bulk-allowed>false</is-bulk-allowed>
+                            <is-incremental-allowed>true</is-incremental-allowed>
+                            <table-name>dataset_name</table-name>
+                            <qualifiers type=""array""/>
+                            <dataset-formats type=""array"">
+                                <dataset-format>
+                                    <name>Countries CSV</name>
+                                    <parser-type>csv</parser-type>
+                                </dataset-format>
+                                <dataset-format>
+                                    <name>Countries XML</name>
+                                    <parser-type>xml</parser-type>
+                                </dataset-format>
+                            </dataset-formats>
+                        </dataset>
+                    </datasets>
+                </user-access-group-authorisation>";
+            _configuration.BuildFromXml(xmlConfig);
+            IntegrityDataset _dataset = _configuration.GetDataset(9);
+
+            Assert.AreEqual(_dataset.m_dataset_formats.Count, 2);
+
+            DatasetFormat csv_format = (DatasetFormat)_dataset.m_dataset_formats.Find(c => c.name == "Countries CSV");
+            Assert.NotNull(csv_format);
+            Assert.AreEqual(csv_format.type, DatasetFormat.Type.CSV);
+
+            DatasetFormat xml_format = (DatasetFormat)_dataset.m_dataset_formats.Find(c => c.name == "Countries XML");
+            Assert.NotNull(xml_format);
+            Assert.AreEqual(xml_format.type, DatasetFormat.Type.XML);
         }
 
 	}

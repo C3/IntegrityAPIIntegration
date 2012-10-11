@@ -30,8 +30,7 @@ using System.Xml;
 
 class Configuration
 {
-
-
+    
 	public List<IntegrityDataset> m_Datasets;
 	public List<Qualifier> GetQualifiersForDataset(int dataset_id)
 	{
@@ -88,14 +87,24 @@ class Configuration
 		ds.m_tableName = ds_node.SelectSingleNode("table-name").InnerText;
 		ds.m_qualifiers = new List<Qualifier>();
 
-		XmlNode q_node = null;
-		foreach (XmlNode q_node_loopVariable in ds_node.SelectNodes("qualifiers/qualifier")) {
-			q_node = q_node_loopVariable;
-			ds.m_qualifiers.Add(buildQualifier(q_node));
+		foreach (XmlNode node in ds_node.SelectNodes("qualifiers/qualifier")) {
+			ds.m_qualifiers.Add(buildQualifier(node));
 		}
+
+        ds.m_dataset_formats = new List<DatasetFormat>();
+        foreach (XmlNode node in ds_node.SelectNodes("dataset-formats/dataset-format")) {
+            ds.m_dataset_formats.Add(buildDatasetFormat(node));
+        }
 
 		return ds;
 	}
+
+    private DatasetFormat buildDatasetFormat(XmlNode format_node)
+    {
+        string name = format_node.SelectSingleNode("name").InnerText;
+        string type = format_node.SelectSingleNode("parser-type").InnerText.ToUpper();
+        return new DatasetFormat { name = name, type = (DatasetFormat.Type)System.Enum.Parse(typeof(DatasetFormat.Type), type) };
+    }
 
 	private Qualifier buildQualifier(XmlNode q_node)
 	{
