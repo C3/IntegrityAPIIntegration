@@ -30,7 +30,7 @@ using System.Xml;
 
 namespace IntegrityAPI
 {
-    class UploadAttemptResponse
+    public class UploadAttemptResponse
     {
 
         private int _id;

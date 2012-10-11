@@ -115,11 +115,17 @@ public class Integrity
       
     }
 
-	public int ExhaustiveIncrementalDatasetUpload(int dataset_id, ref string payload)
+    /// <summary>
+    /// Progresses a payload through the whole upload process
+    /// </summary>
+    /// <param name="dataset">Dataset to upload to</param>
+    /// <param name="dataset_format">Format of the payload</param>
+    /// <param name="payload">File contents to upload</param>
+    /// <param name="type">Type of upload to perform</param>
+    /// <returns></returns>
+    public int ExhaustiveDatasetUpload(IntegrityDataset dataset, DatasetFormat dataset_format, ref string payload, UploadAttempt.Type type)
 	{
-        IntegrityDataset _dataset = _configuration.GetDataset(dataset_id);
-        DatasetFormat _format = _dataset.m_dataset_formats.First();
-		UploadAttempt upload_attempt = new UploadAttempt(_dataset, _configuration.GetQualifiersForDataset(dataset_id), ref payload, _format, UploadAttempt.Type.Incremental);
+		UploadAttempt upload_attempt = new UploadAttempt(dataset, _configuration.GetQualifiersForDataset(dataset.m_id), ref payload, dataset_format, type);
 
 		UploadAttemptResponse created_status = default(UploadAttemptResponse);
 		created_status = _integrity_interface.CreateUpload(ref upload_attempt);
@@ -141,4 +147,34 @@ public class Integrity
 
 		return uploaded_status.GetId;
 	}
+
+    /// <summary>
+    /// Transfer an upload attempt
+    /// </summary>
+    /// <param name="upload_attempt">Upload attempt to transfer</param>
+    /// <returns></returns>
+    public UploadAttemptResponse TransferUploadAttempt(UploadAttempt upload_attempt)
+    {
+        return _integrity_interface.CreateUpload(ref upload_attempt);
+    }
+
+    /// <summary>
+    /// Validate an existing upload attempt
+    /// </summary>
+    /// <param name="upload_attempt">Upload attempt to validate</param>
+    /// <returns></returns>
+    public UploadAttemptResponse ValidateUploadAttempt(UploadAttempt upload_attempt)
+    {
+        return _integrity_interface.ValidateUpload(upload_attempt.ID);
+    }
+
+    /// <summary>
+    /// Upload an existing upload attempt, staging it
+    /// </summary>
+    /// <param name="upload_attempt">Upload attempt to upload</param>
+    /// <returns></returns>
+    public UploadAttemptResponse UploadUploadAttempt(UploadAttempt upload_attempt)
+    {
+        return _integrity_interface.Upload(upload_attempt.ID);
+    }
 }
