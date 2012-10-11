@@ -117,7 +117,7 @@ public class Integrity
 
 	public int ExhaustiveIncrementalDatasetUpload(int dataset_id, ref string payload)
 	{
-		UploadAttempt upload_attempt = new UploadAttempt(_configuration.GetDataset(dataset_id), _configuration.GetQualifiersForDataset(dataset_id), ref payload, "XML");
+		UploadAttempt upload_attempt = new UploadAttempt(_configuration.GetDataset(dataset_id), _configuration.GetQualifiersForDataset(dataset_id), ref payload, "XML", UploadAttempt.Type.Incremental);
 
 		UploadAttemptResponse created_status = default(UploadAttemptResponse);
 		created_status = _integrity_interface.CreateUpload(ref upload_attempt);
