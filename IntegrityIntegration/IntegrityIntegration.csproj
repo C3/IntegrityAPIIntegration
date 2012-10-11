@@ -66,6 +66,7 @@
     <Compile Include="Search.cs" />
     <Compile Include="SearchResult.cs" />
     <Compile Include="tests\ConfigurationTests.cs" />
+    <Compile Include="ValidationError.cs" />
     <Compile Include="tests\IntegrityHttpServiceTests.cs" />
     <Compile Include="tests\IntegrityInterfaceTests.cs" />
     <Compile Include="tests\QualifierTest.cs" />

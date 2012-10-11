@@ -51,6 +51,7 @@ namespace IntegrityAPI
         {
             get { return _is_pending; }
         }
+        public List<ValidationError> ValidationErrors = new List<ValidationError>();
 
         public UploadAttemptResponse(string responseXml)
         {
@@ -66,17 +67,17 @@ namespace IntegrityAPI
                 _is_pending = false;
             }
 
-            if (xmld.ChildNodes.Count == 0)
+            if ((xmld.ChildNodes.Count == 0) || (xmld.SelectSingleNode("//errors").ChildNodes.Count > 0) || (xmld.SelectSingleNode("//row-errors").ChildNodes.Count > 0))
             {
                 _was_success = false;
-            }
-            else if (xmld.SelectSingleNode("//errors").ChildNodes.Count > 0)
-            {
-                _was_success = false;
-            }
-            else if (xmld.SelectSingleNode("//row-errors").ChildNodes.Count > 0)
-            {
-                _was_success = false;
+
+                foreach (XmlNode node in xmld.SelectNodes("//row-error"))
+                {
+                    int level = int.Parse(node.SelectSingleNode("level").InnerText);
+                    string level_description = node.SelectSingleNode("level-description").InnerText;
+                    string details = node.SelectSingleNode("details").InnerText;
+                    this.ValidationErrors.Add(new ValidationError { level = level, level_description = level_description, details = details });
+                }
             }
             else
             {
