@@ -35,7 +35,7 @@ public class UploadAttempt
 	private int _id;
 	private IntegrityDataset _dataset;
 	private List<Qualifier> _qualifiers;
-	private string _formatName;
+	private DatasetFormat _format;
     private Type _uploadType;
     public enum Type
     {
@@ -45,18 +45,17 @@ public class UploadAttempt
 
 	private string _fileXml;
 	
-    public UploadAttempt(IntegrityDataset ds, List<Qualifier> qualifiers, ref string payload, string format_name, Type type)
+    public UploadAttempt(IntegrityDataset ds, List<Qualifier> qualifiers, ref string payload, DatasetFormat format, Type type)
 	{
 		this._dataset = ds;
 		this._qualifiers = qualifiers;
 		this._fileXml = payload;
-		this._formatName = format_name;
+		this._format = format;
         this._uploadType = type;
 	}
 
 	public string BuildAttemptXml()
 	{
-
 		XmlDocument uaXml = new XmlDocument();
 		XmlElement element = null;
 		XmlElement qualifiersElement = null;
@@ -73,7 +72,7 @@ public class UploadAttempt
 		docRoot.AppendChild(element);
 
 		element = uaXml.CreateElement("format-name");
-		element.InnerText = _formatName;
+		element.InnerText = _format.name;
 		docRoot.AppendChild(element);
 
 		element = uaXml.CreateElement("bulk-or-incremental");
