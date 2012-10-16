@@ -157,37 +157,4 @@ public class Integrity
       return uploaded_status;
     
   }
-
-    /// <summary>
-    /// Transfer an upload attempt
-    /// </summary>
-    /// <param name="upload_attempt">Upload attempt to transfer</param>
-    /// <returns></returns>
-    public UploadAttemptResponse TransferUploadAttempt(ref UploadAttempt upload_attempt)
-    {
-        var createdStatus =_integrity_interface.CreateUpload(ref upload_attempt);
-
-      return createdStatus;
-
-    }
-
-    /// <summary>
-    /// Validate an existing upload attempt
-    /// </summary>
-    /// <param name="upload_attempt">Upload attempt to validate</param>
-    /// <returns></returns>
-    public UploadAttemptResponse ValidateUploadAttempt(UploadAttempt upload_attempt)
-    {
-        return _integrity_interface.ValidateUpload(upload_attempt.ID);
-    }
-
-    /// <summary>
-    /// Upload an existing upload attempt, staging it
-    /// </summary>
-    /// <param name="upload_attempt">Upload attempt to upload</param>
-    /// <returns></returns>
-    public UploadAttemptResponse UploadUploadAttempt(UploadAttempt upload_attempt)
-    {
-        return _integrity_interface.Upload(upload_attempt.ID);
-    }
 }
