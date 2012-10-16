@@ -139,22 +139,23 @@ public class Integrity
 
       UploadAttemptResponse created_status = default(UploadAttemptResponse);
       created_status = _integrity_interface.CreateUpload(ref upload_attempt);
-
       if (!created_status.WasSuccess)
       {
         return created_status;
       }
 
-      UploadAttemptResponse validated_status = default(UploadAttemptResponse);
-      validated_status = _integrity_interface.ValidateUpload(created_status.GetId);
-      if (!validated_status.WasSuccess)
+      UploadAttemptResponse validation_status = _integrity_interface.WaitUntilValidated(upload_attempt.ID);
+      if (!validation_status.WasSuccess)
       {
-        return validated_status;
+          return validation_status;
       }
 
-      UploadAttemptResponse uploaded_status = default(UploadAttemptResponse);
-      uploaded_status = _integrity_interface.Upload(validated_status.GetId);
-      return uploaded_status;
-    
+      UploadAttemptResponse upload_status = _integrity_interface.Upload(upload_attempt.ID);
+      if (!upload_status.WasSuccess)
+      {
+          return upload_status;
+      }
+
+      return _integrity_interface.WaitUntilUploaded(upload_attempt.ID);
   }
 }

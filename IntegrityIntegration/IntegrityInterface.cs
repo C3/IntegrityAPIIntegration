@@ -62,4 +62,35 @@ class IntegrityInterface
 	{
 		return new UploadAttemptResponse(_service.GetUploadStatus(upload_attempt_id));
 	}
+
+    public UploadAttemptResponse WaitUntilValidated(int upload_attempt_id)
+    {
+        string[] validation_statuses = { "transferring", "pending_validation", "validating" };
+        return WaitUntilNotStatus(upload_attempt_id, validation_statuses);
+    }
+
+    public UploadAttemptResponse WaitUntilUploaded(int upload_attempt_id)
+    {
+        string[] upload_statuses = { "pending_upload", "uploading" };
+        return WaitUntilNotStatus(upload_attempt_id, upload_statuses);
+    }
+
+    private UploadAttemptResponse WaitUntilNotStatus(int upload_attempt_id, string[] statuses)
+    {
+        UploadAttemptResponse response = GetUploadStatus(upload_attempt_id);
+        int attempts = 1;
+
+        while (statuses.Contains(response.status))
+        {
+            if (attempts > 1200)
+            {
+                break;
+            }
+            System.Threading.Thread.Sleep(5000);
+            response = GetUploadStatus(upload_attempt_id);
+            attempts++;
+        }
+
+        return response;
+    }
 }
