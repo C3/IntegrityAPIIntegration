@@ -115,6 +115,7 @@ public class UploadAttempt
 
 	public int ID {
 		get { return _id; }
+        set { this._id = value; }
 	}
 
 	public List<Qualifier> Qualifiers {

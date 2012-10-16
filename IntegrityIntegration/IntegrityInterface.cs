@@ -45,7 +45,12 @@ class IntegrityInterface
 
 	public UploadAttemptResponse CreateUpload(ref UploadAttempt upload_attempt)
 	{
-		return new UploadAttemptResponse(_service.CreateUploadAttempt(upload_attempt.BuildAttemptXml()));
+        var uar = new UploadAttemptResponse(_service.CreateUploadAttempt(upload_attempt.BuildAttemptXml()));
+        if (uar.WasSuccess)
+        {
+            upload_attempt.ID = uar.GetId;
+        }
+		return uar; 
 	}
 
 	public UploadAttemptResponse ValidateUpload(int upload_attempt_id)
