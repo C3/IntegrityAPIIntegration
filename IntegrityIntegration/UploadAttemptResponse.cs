@@ -35,6 +35,7 @@ namespace IntegrityAPI
 
         private int _id;
         private bool _was_success;
+        public string status { get; set; }
 
         private bool _is_pending;
         public int GetId
@@ -65,7 +66,10 @@ namespace IntegrityAPI
             {
                 _was_success = false;
                 _is_pending = false;
+                return;
             }
+
+            this.status = xmld.SelectSingleNode("//status").InnerText;
 
             if ((xmld.ChildNodes.Count == 0) || (xmld.SelectSingleNode("//errors").ChildNodes.Count > 0) || (xmld.SelectSingleNode("//row-errors").ChildNodes.Count > 0))
             {
@@ -83,7 +87,7 @@ namespace IntegrityAPI
             {
                 _was_success = true;
                 _id = int.Parse(xmld.SelectSingleNode("//id").InnerText);
-                if (xmld.SelectSingleNode("//status").InnerText == "pending")
+                if (status == "pending")
                 {
                     _is_pending = true;
                 }
