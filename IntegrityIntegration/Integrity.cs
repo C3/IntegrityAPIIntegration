@@ -58,7 +58,7 @@ public class Integrity
   /// <param name="datasetName">Name of dataset</param>
   /// <param name="qualifier_selections">Qualifiers to search against as a dictionary of attribute name to list of qualifier values</param>
   /// <returns></returns>
-  public Search NewSearch(string datasetName, IDictionary<string, IList<string>> qualifier_selections)
+  public Search NewSearch(string datasetName, IDictionary<string, IEnumerable<string>> qualifier_selections)
   {
     var config_dataset = _configuration.GetDataset(datasetName);
     var search_dataset = new IntegrityDataset();
@@ -93,9 +93,9 @@ public class Integrity
   /// Returns a list of names of datasets available to the currently logged in user
   /// </summary>
   /// <returns></returns>
-    public IList<String> AvailableDatasets()
+    public IEnumerable<IntegrityDataset> AvailableDatasets()
     {
-      return _configuration.m_Datasets.Select(d => d.m_name).ToList();
+      return _configuration.m_Datasets.ToList();
     }
 
   /// <summary>
@@ -103,16 +103,21 @@ public class Integrity
   /// </summary>
   /// <param name="dataset">Name of dataset</param>
   /// <returns></returns>
-    public Dictionary<string, IList<string>> AvailableQualifiers(string dataset)
+    public Dictionary<string, IEnumerable<string>> AvailableQualifiers(string dataset)
     {
       var qualifiers =_configuration.GetQualifiersForDataset(_configuration.GetDataset(dataset).m_id);
 
-      var qualifier_map = new Dictionary<string, IList<string>>();
+      var qualifier_map = new Dictionary<string, IEnumerable<string>>();
 
       qualifiers.ForEach(q => qualifier_map.Add(q.AttributeName,q.Values));
 
       return qualifier_map;
       
+    }
+
+    public IEnumerable<Qualifier> QualifiersFromDictionary(Dictionary<string,IEnumerable<string>> qualifiers)
+    {
+      return qualifiers.Select(kvp => new Qualifier(kvp.Key, kvp.Value.ToArray()));
     }
 
     /// <summary>
@@ -123,39 +128,47 @@ public class Integrity
     /// <param name="payload">File contents to upload</param>
     /// <param name="type">Type of upload to perform</param>
     /// <returns></returns>
-    public int ExhaustiveDatasetUpload(IntegrityDataset dataset, DatasetFormat dataset_format, ref string payload, UploadAttempt.Type type)
-	{
-		UploadAttempt upload_attempt = new UploadAttempt(dataset, _configuration.GetQualifiersForDataset(dataset.m_id), ref payload, dataset_format, type);
+    public UploadAttemptResponse ExhaustiveDatasetUpload(IntegrityDataset dataset, DatasetFormat dataset_format, ref string payload, UploadAttempt.Type type)
+    {
+      return Upload(dataset, dataset_format, _configuration.GetQualifiersForDataset(dataset.m_id), ref payload, type);
+    }
 
-		UploadAttemptResponse created_status = default(UploadAttemptResponse);
-		created_status = _integrity_interface.CreateUpload(ref upload_attempt);
-		if (!created_status.WasSuccess) {
-			return 0;
-		}
+  public UploadAttemptResponse Upload(IntegrityDataset dataset, DatasetFormat format, List<Qualifier> qualifiers, ref string payload, UploadAttempt.Type type)
+    {
+      UploadAttempt upload_attempt = new UploadAttempt(dataset, qualifiers, ref payload, format, type);
 
-		UploadAttemptResponse validated_status = default(UploadAttemptResponse);
-		validated_status = _integrity_interface.ValidateUpload(created_status.GetId);
-		if (!validated_status.WasSuccess) {
-			return 0;
-		}
+      UploadAttemptResponse created_status = default(UploadAttemptResponse);
+      created_status = _integrity_interface.CreateUpload(ref upload_attempt);
 
-		UploadAttemptResponse uploaded_status = default(UploadAttemptResponse);
-		uploaded_status = _integrity_interface.Upload(validated_status.GetId);
-		if (!uploaded_status.WasSuccess) {
-			return 0;
-		}
+      if (!created_status.WasSuccess)
+      {
+        return created_status;
+      }
 
-		return uploaded_status.GetId;
-	}
+      UploadAttemptResponse validated_status = default(UploadAttemptResponse);
+      validated_status = _integrity_interface.ValidateUpload(created_status.GetId);
+      if (!validated_status.WasSuccess)
+      {
+        return validated_status;
+      }
+
+      UploadAttemptResponse uploaded_status = default(UploadAttemptResponse);
+      uploaded_status = _integrity_interface.Upload(validated_status.GetId);
+      return uploaded_status;
+    
+  }
 
     /// <summary>
     /// Transfer an upload attempt
     /// </summary>
     /// <param name="upload_attempt">Upload attempt to transfer</param>
     /// <returns></returns>
-    public UploadAttemptResponse TransferUploadAttempt(UploadAttempt upload_attempt)
+    public UploadAttemptResponse TransferUploadAttempt(ref UploadAttempt upload_attempt)
     {
-        return _integrity_interface.CreateUpload(ref upload_attempt);
+        var createdStatus =_integrity_interface.CreateUpload(ref upload_attempt);
+
+      return createdStatus;
+
     }
 
     /// <summary>
