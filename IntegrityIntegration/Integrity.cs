@@ -115,13 +115,50 @@ public class Integrity
       
     }
 
+    /// <summary>
+    /// Utility to turn a qualifier map like {"Qualifier attribute" => ['value1','value2]}
+    /// into a list of the Qualifier objects needed for an upload
+    /// </summary>
+    /// <param name="qualifiers"></param>
+    /// <returns></returns>
     public IEnumerable<Qualifier> QualifiersFromDictionary(Dictionary<string,IEnumerable<string>> qualifiers)
     {
       return qualifiers.Select(kvp => new Qualifier(kvp.Key, kvp.Value.ToArray()));
     }
 
     /// <summary>
-    /// Progresses a payload through the whole upload process
+    /// Find a Dataset object given a dataset name
+    /// </summary>
+    /// <param name="datasetName"></param>
+    /// <returns></returns>
+    public IntegrityDataset FindDataset(string datasetName)
+    {
+      return AvailableDatasets().Single(d => d.m_name == datasetName);
+    }
+
+
+     /// <summary>
+     /// Is dataset incremental upload allowed for the user
+     /// </summary>
+     /// <param name="datasetName"></param>
+     /// <returns></returns>
+    public bool IsIncrementalAllowed(string datasetName)
+     {
+       return FindDataset(datasetName).m_incremental_allowed;
+     }
+
+    /// <summary>
+    /// Is dataset bulk upload allowed for the user
+    /// </summary>
+    /// <param name="datasetName"></param>
+    /// <returns></returns>
+    public bool IsBulkAllowed(string datasetName)
+    {
+      return FindDataset(datasetName).m_bulk_allowed;
+    }
+
+    /// <summary>
+    /// Progresses a payload through the whole upload process, using all the qualifiers the user has access to
     /// </summary>
     /// <param name="dataset">Dataset to upload to</param>
     /// <param name="dataset_format">Format of the payload</param>
@@ -133,6 +170,15 @@ public class Integrity
       return Upload(dataset, dataset_format, _configuration.GetQualifiersForDataset(dataset.m_id), ref payload, type);
     }
 
+  /// <summary>
+  /// Upload a payload to integrity
+  /// </summary>
+  /// <param name="dataset">Dataset to upload</param>
+  /// <param name="format">Format to use</param>
+  /// <param name="qualifiers">List of qualifiers for the upload</param>
+  /// <param name="payload">File  contents to upload</param>
+  /// <param name="type">Type of the upload</param>
+  /// <returns></returns>
   public UploadAttemptResponse Upload(IntegrityDataset dataset, DatasetFormat format, List<Qualifier> qualifiers, ref string payload, UploadAttempt.Type type)
     {
       UploadAttempt upload_attempt = new UploadAttempt(dataset, qualifiers, ref payload, format, type);
