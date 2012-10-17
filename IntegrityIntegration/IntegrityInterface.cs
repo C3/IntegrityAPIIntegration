@@ -91,7 +91,7 @@ class IntegrityInterface
             {
                 break;
             }
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(1000);
             response = GetUploadStatus(upload_attempt_id);
             attempts++;
         }
